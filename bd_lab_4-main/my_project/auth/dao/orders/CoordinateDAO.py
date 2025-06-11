@@ -13,4 +13,4 @@ class CoordinateDAO(GeneralDAO):
         return self._session.query(Coordinate).all()
 
     def find_by_id(self, coordinate_id: int) -> Optional[Coordinate]:
-        return self._session.query(Coordinate).filter(Coordinate.coordinate_id == coordinate_id).first()
+        return self._session.query(Coordinate).filter(Coordinate.id == coordinate_id).first()

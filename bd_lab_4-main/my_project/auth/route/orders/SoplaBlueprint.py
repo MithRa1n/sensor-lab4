@@ -34,8 +34,7 @@ def update_sopla(sopla_id: int) -> Response:
         return make_response(jsonify({"error": "Sopla not found"}), HTTPStatus.NOT_FOUND)
 
     updated_sopla = Sopla.create_from_dto(content)
-    updated_sopla.sopla_id = sopla_id
-    sopla_service.update(updated_sopla)
+    sopla_service.update(sopla_id, updated_sopla)
     return make_response(jsonify(updated_sopla.put_into_dto()), HTTPStatus.OK)
 
 @sopla_bp.delete('/<int:sopla_id>')

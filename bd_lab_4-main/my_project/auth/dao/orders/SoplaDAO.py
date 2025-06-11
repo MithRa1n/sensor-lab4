@@ -13,4 +13,4 @@ class SoplaDAO(GeneralDAO):
         return self._session.query(Sopla).all()
 
     def find_by_id(self, sopla_id: int) -> Optional[Sopla]:
-        return self._session.query(Sopla).filter(Sopla.sopla_id == sopla_id).first()
+        return self._session.query(Sopla).filter(Sopla.id == sopla_id).first()

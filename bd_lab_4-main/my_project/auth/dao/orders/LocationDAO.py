@@ -13,4 +13,4 @@ class LocationDAO(GeneralDAO):
         return self._session.query(Location).all()
 
     def find_by_id(self, location_id: int) -> Optional[Location]:
-        return self._session.query(Location).filter(Location.locations_id == location_id).first()
+        return self._session.query(Location).filter(Location.id == location_id).first()

@@ -19,30 +19,29 @@ def create_location() -> Response:
     locations_service.create(location)
     return make_response(jsonify(location.put_into_dto()), HTTPStatus.CREATED)
 
-@locations_bp.get('/<int:locations_id>')
-def get_location(locations_id: int) -> Response:
-    location = locations_service.find_by_id(locations_id)
+@locations_bp.get('/<int:location_id>')
+def get_location(location_id: int) -> Response:
+    location = locations_service.find_by_id(location_id)
     if location:
         return make_response(jsonify(location.put_into_dto()), HTTPStatus.OK)
     return make_response(jsonify({"error": "Location not found"}), HTTPStatus.NOT_FOUND)
 
-@locations_bp.put('/<int:locations_id>')
-def update_location(locations_id: int) -> Response:
+@locations_bp.put('/<int:location_id>')
+def update_location(location_id: int) -> Response:
     content = request.get_json()
-    location = locations_service.find_by_id(locations_id)
+    location = locations_service.find_by_id(location_id)
     if not location:
         return make_response(jsonify({"error": "Location not found"}), HTTPStatus.NOT_FOUND)
 
     updated_location = Location.create_from_dto(content)
-    updated_location.locations_id = locations_id
-    locations_service.update(updated_location)
+    locations_service.update(location_id, updated_location)
     return make_response(jsonify(updated_location.put_into_dto()), HTTPStatus.OK)
 
-@locations_bp.delete('/<int:locations_id>')
-def delete_location(locations_id: int) -> Response:
-    location = locations_service.find_by_id(locations_id)
+@locations_bp.delete('/<int:location_id>')
+def delete_location(location_id: int) -> Response:
+    location = locations_service.find_by_id(location_id)
     if not location:
         return make_response(jsonify({"error": "Location not found"}), HTTPStatus.NOT_FOUND)
 
-    locations_service.delete(locations_id)
+    locations_service.delete(location_id)
     return make_response(jsonify({"message": "Location deleted successfully"}), HTTPStatus.NO_CONTENT)

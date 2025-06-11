@@ -19,30 +19,29 @@ def create_coordinate() -> Response:
     coordinates_service.create(coordinate)
     return make_response(jsonify(coordinate.put_into_dto()), HTTPStatus.CREATED)
 
-@coordinates_bp.get('/<int:coordinates_id>')
-def get_coordinate(coordinates_id: int) -> Response:
-    coordinate = coordinates_service.find_by_id(coordinates_id)
+@coordinates_bp.get('/<int:coordinate_id>')
+def get_coordinate(coordinate_id: int) -> Response:
+    coordinate = coordinates_service.find_by_id(coordinate_id)
     if coordinate:
         return make_response(jsonify(coordinate.put_into_dto()), HTTPStatus.OK)
     return make_response(jsonify({"error": "Coordinate not found"}), HTTPStatus.NOT_FOUND)
 
-@coordinates_bp.put('/<int:coordinates_id>')
-def update_coordinate(coordinates_id: int) -> Response:
+@coordinates_bp.put('/<int:coordinate_id>')
+def update_coordinate(coordinate_id: int) -> Response:
     content = request.get_json()
-    coordinate = coordinates_service.find_by_id(coordinates_id)
+    coordinate = coordinates_service.find_by_id(coordinate_id)
     if not coordinate:
         return make_response(jsonify({"error": "Coordinate not found"}), HTTPStatus.NOT_FOUND)
 
     updated_coordinate = Coordinate.create_from_dto(content)
-    updated_coordinate.coordinates_id = coordinates_id
-    coordinates_service.update(updated_coordinate)
+    coordinates_service.update(coordinate_id, updated_coordinate)
     return make_response(jsonify(updated_coordinate.put_into_dto()), HTTPStatus.OK)
 
-@coordinates_bp.delete('/<int:coordinates_id>')
-def delete_coordinate(coordinates_id: int) -> Response:
-    coordinate = coordinates_service.find_by_id(coordinates_id)
+@coordinates_bp.delete('/<int:coordinate_id>')
+def delete_coordinate(coordinate_id: int) -> Response:
+    coordinate = coordinates_service.find_by_id(coordinate_id)
     if not coordinate:
         return make_response(jsonify({"error": "Coordinate not found"}), HTTPStatus.NOT_FOUND)
 
-    coordinates_service.delete(coordinates_id)
+    coordinates_service.delete(coordinate_id)
     return make_response(jsonify({"message": "Coordinate deleted successfully"}), HTTPStatus.NO_CONTENT)

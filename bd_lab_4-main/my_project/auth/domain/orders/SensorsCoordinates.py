@@ -8,7 +8,6 @@ class SensorsCoordinates(db.Model):
     sensor_id = db.Column(db.Integer, db.ForeignKey("sensors.id"), primary_key=True)
     coordinate_id = db.Column(db.Integer, db.ForeignKey("coordinates.id"), primary_key=True)
 
-    # Додаємо зв'язки для ORM
     sensor = db.relationship("Sensor", backref=db.backref("sensors_coordinates_assoc", cascade="all, delete-orphan"))
     coordinate = db.relationship("Coordinate", backref=db.backref("sensors_coordinates_assoc", cascade="all, delete-orphan"))
 

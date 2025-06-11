@@ -13,4 +13,4 @@ class CustomerDAO(GeneralDAO):
         return self._session.query(Customer).all()
 
     def find_by_id(self, customer_id: int) -> Optional[Customer]:
-        return self._session.query(Customer).filter(Customer.customer_id == customer_id).first()
+        return self._session.query(Customer).filter(Customer.id == customer_id).first()

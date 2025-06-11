@@ -13,4 +13,4 @@ class UserDAO(GeneralDAO):
         return self._session.query(User).all()
 
     def find_by_id(self, user_id: int) -> Optional[User]:
-        return self._session.query(User).filter(User.user_id == user_id).first()
+        return self._session.query(User).filter(User.id == user_id).first()

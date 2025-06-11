@@ -34,8 +34,7 @@ def update_pump(pump_id: int) -> Response:
         return make_response(jsonify({"error": "Pump not found"}), HTTPStatus.NOT_FOUND)
 
     updated_pump = Pump.create_from_dto(content)
-    updated_pump.pump_id = pump_id
-    pumps_service.update(updated_pump)
+    pumps_service.update(pump_id, updated_pump)
     return make_response(jsonify(updated_pump.put_into_dto()), HTTPStatus.OK)
 
 @pumps_bp.delete('/<int:pump_id>')
