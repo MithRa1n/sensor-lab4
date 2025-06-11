@@ -6,6 +6,6 @@ from .orders.PumpOperations import PumpOperation
 from .orders.SensorReadings import SensorReading
 from .orders.Sopla import Sopla
 from .orders.Sensors import Sensor
-from .orders.Coordinates import Coordinate as SensorsCoordinates
-from .orders.SensorsType import SensorType as SensorsType
+from .orders.SensorsCoordinates import SensorsCoordinates
+from .orders.SensorsType import SensorType
 from .orders.Users import User

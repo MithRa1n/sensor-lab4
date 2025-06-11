@@ -12,8 +12,8 @@ class SensorDAO(GeneralDAO):
     def find_all(self) -> List[Sensor]:
         return self._session.query(Sensor).all()
 
-    def find_by_id(self, sensor_id: int) -> Optional[Sensor]:
-        return self._session.query(Sensor).filter(Sensor.sensor_id == sensor_id).first()
+    def find_by_id(self, sensor_id: int) -> Sensor:
+        return self._session.query(Sensor).filter(Sensor.id == sensor_id).first()
 
     def find_by_type_id(self, type_id: int) -> List[Sensor]:
-        return self._session.query(Sensor).filter(Sensor.FK_sensor_type_id == type_id).all()
+        return self._session.query(Sensor).filter(Sensor.sensor_type_id == type_id).all()

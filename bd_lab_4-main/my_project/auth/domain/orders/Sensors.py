@@ -8,22 +8,30 @@ from datetime import datetime
 class Sensor(db.Model):
     __tablename__ = "sensors"
 
-    sensor_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     installation_date = db.Column(db.Date)
-    FK_sensor_type_id = db.Column(db.Integer, db.ForeignKey("sensors_type.sensor_type_id"), nullable=False)
+    type_id = db.Column(db.Integer, db.ForeignKey("sensor_types.id"), nullable=False)
+
+    readings = db.relationship("SensorReading", backref="sensor", lazy=True)
+    coordinates = db.relationship(
+        "Coordinate",
+        secondary="sensors_coordinates",
+        back_populates="sensors"
+    )
 
     @staticmethod
     def create_from_dto(dto_dict: dict) -> 'Sensor':
         obj = Sensor(
-            sensor_id=dto_dict.get("sensor_id"),
+            id=dto_dict.get("id"),
             installation_date=datetime.strptime(dto_dict.get("installation_date"), "%Y-%m-%d").date() if dto_dict.get("installation_date") else None,
-            FK_sensor_type_id=dto_dict.get("FK_sensor_type_id")
+            type_id=dto_dict.get("type_id")
         )
         return obj
 
     def put_into_dto(self) -> Dict[str, Any]:
         return {
-            "sensor_id": self.sensor_id,
+            "id": self.id,
             "installation_date": str(self.installation_date),
-            "FK_sensor_type_id": self.FK_sensor_type_id,
+            "type_id": self.type_id,
+            "coordinates": [coord.id for coord in self.coordinates]
         }

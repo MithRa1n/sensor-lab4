@@ -11,7 +11,7 @@ from my_project.auth.domain.orders.Locations import Location
 from my_project.auth.domain.orders.Pumps import Pump
 from my_project.auth.domain.orders.PumpOperations import PumpOperation
 from my_project.auth.domain.orders.SensorReadings import SensorReading
-from my_project.auth.domain.orders.SensorsHasCoordinates import SensorCoordinate
+from my_project.auth.domain.orders.SensorsCoordinates import SensorsCoordinates
 from my_project.auth.domain.orders.Sensors import Sensor
 from my_project.auth.domain.orders.SensorsType import SensorType
 from my_project.auth.domain.orders.Sopla import Sopla

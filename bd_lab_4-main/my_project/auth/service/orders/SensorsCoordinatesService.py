@@ -1,41 +1,31 @@
-from typing import List
+from typing import List, Optional
+from my_project.auth.dao.orders.SensorsCoordinatesDAO import SensorsCoordinatesDAO
+from my_project.auth.domain.orders.SensorsCoordinates import SensorsCoordinates
 from my_project.auth.service.general_service import GeneralService
-from my_project.auth.dao import (
-    coordinates_dao, customers_dao, locations_dao, pumps_dao,
-    pump_operations_dao, sensor_readings_dao, sensors_coordinates_dao,
-    sensors_dao, sensors_type_dao, sopla_dao
-)
-from my_project.auth.domain.orders.Coordinates import Coordinate
-from my_project.auth.domain.orders.Customers import Customer
-from my_project.auth.domain.orders.Locations import Location
-from my_project.auth.domain.orders.Pumps import Pump
-from my_project.auth.domain.orders.PumpOperations import PumpOperation
-from my_project.auth.domain.orders.SensorReadings import SensorReading
-from my_project.auth.domain.orders.SensorsHasCoordinates import SensorCoordinate
-from my_project.auth.domain.orders.Sensors import Sensor
-from my_project.auth.domain.orders.SensorsType import SensorType
-from my_project.auth.domain.orders.Sopla import Sopla
-
-
-
 
 class SensorsCoordinatesService(GeneralService):
-    _dao = sensors_coordinates_dao
+    _dao = SensorsCoordinatesDAO()
 
-    def create(self, item: SensorCoordinate) -> None:
-        self._dao.create(item)
-
-    def get_all(self) -> List[SensorCoordinate]:
+    def find_all(self) -> List[SensorsCoordinates]:
         return self._dao.find_all()
 
-    def get_by_id(self, item_id: int) -> SensorCoordinate:
-        return self._dao.find_by_id(item_id)
+    def find_all_expanded(self) -> list:
+        return self._dao.find_all_expanded()
 
-    def update(self, item_id: int, item: SensorCoordinate) -> None:
-        self._dao.update(item_id, item)
+    def find_by_id(self, sensor_id: int, coordinate_id: int) -> Optional[SensorsCoordinates]:
+        return self._dao.find_by_id(sensor_id, coordinate_id)
 
-    def delete(self, item_id: int) -> None:
-        self._dao.delete(item_id)
-
-    def get_by_sensor_id(self, sensor_id: int) -> List[SensorCoordinate]:
+    def find_by_sensor_id(self, sensor_id: int) -> List[SensorsCoordinates]:
         return self._dao.find_by_sensor_id(sensor_id)
+
+    def find_by_coordinate_id(self, coordinate_id: int) -> List[SensorsCoordinates]:
+        return self._dao.find_by_coordinate_id(coordinate_id)
+
+    def create(self, sensor_coordinate: SensorsCoordinates) -> None:
+        self._dao.create(sensor_coordinate)
+
+    def update(self, sensor_coordinate: SensorsCoordinates) -> None:
+        self._dao.update(sensor_coordinate)
+
+    def delete(self, sensor_id: int, coordinate_id: int) -> None:
+        self._dao.delete(sensor_id, coordinate_id)

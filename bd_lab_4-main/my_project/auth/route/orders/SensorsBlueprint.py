@@ -2,8 +2,10 @@ from http import HTTPStatus
 from flask import Blueprint, jsonify, Response, request, make_response
 from my_project.auth.domain.orders.Sensors import Sensor
 from my_project.auth.service.orders.SensorsService import SensorsService
+from my_project.auth.service.orders.SensorsCoordinatesService import SensorsCoordinatesService
 
 sensors_service = SensorsService()
+sensorscoordinates_service = SensorsCoordinatesService()
 sensors_bp = Blueprint('sensors', __name__, url_prefix='/sensors')
 
 @sensors_bp.get('')
@@ -57,8 +59,6 @@ def get_sensorreadings_by_sensor(sensor_id: int) -> Response:
 
 @sensors_bp.get('/<int:sensor_id>/coordinates')
 def get_coordinates_by_sensor(sensor_id: int) -> Response:
-    from my_project.auth.service.orders.SensorsCoordinatesService import SensorsCoordinatesService
-    sensorscoordinates_service = SensorsCoordinatesService()
-    sensorscoordinates = sensorscoordinates_service.get_by_sensor_id(sensor_id)
+    sensorscoordinates = sensorscoordinates_service.find_by_sensor_id(sensor_id)
     sensorscoordinates_dto = [sc.put_into_dto() for sc in sensorscoordinates]
     return make_response(jsonify(sensorscoordinates_dto), HTTPStatus.OK)

@@ -6,22 +6,29 @@ from my_project import db
 class Coordinate(db.Model):
     __tablename__ = "coordinates"
 
-    coordinate_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    latitude = db.Column(db.String(45))
-    longtitude = db.Column(db.Float, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+
+    sensors = db.relationship(
+        "Sensor",
+        secondary="sensors_coordinates",
+        back_populates="coordinates"
+    )
 
     @staticmethod
     def create_from_dto(dto_dict: dict) -> 'Coordinate':
         obj = Coordinate(
-            coordinate_id=dto_dict.get("coordinate_id"),
+            id=dto_dict.get("id"),
             latitude=dto_dict.get("latitude"),
-            longtitude=dto_dict.get("longtitude")
+            longitude=dto_dict.get("longitude")
         )
         return obj
 
     def put_into_dto(self) -> Dict[str, Any]:
         return {
-            "coordinate_id": self.coordinate_id,
+            "id": self.id,
             "latitude": self.latitude,
-            "longtitude": self.longtitude,
+            "longitude": self.longitude,
+            "sensors": [sensor.id for sensor in self.sensors]
         }

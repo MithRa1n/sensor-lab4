@@ -1,24 +1,30 @@
-from dataclasses import dataclass
-from typing import Optional
+from __future__ import annotations
+from typing import Dict, Any
+from my_project import db
 
-@dataclass
-class SensorCoordinates:
-    sensors_coordinates_id: int
-    sensor_id: int
-    coordinates_id: int
+class SensorsCoordinates(db.Model):
+    __tablename__ = "sensors_coordinates"
+
+    sensor_id = db.Column(db.Integer, db.ForeignKey("sensors.id"), primary_key=True)
+    coordinate_id = db.Column(db.Integer, db.ForeignKey("coordinates.id"), primary_key=True)
+
+    # Додаємо зв'язки для ORM
+    sensor = db.relationship("Sensor", backref=db.backref("sensors_coordinates_assoc", cascade="all, delete-orphan"))
+    coordinate = db.relationship("Coordinate", backref=db.backref("sensors_coordinates_assoc", cascade="all, delete-orphan"))
+
+    def __init__(self, sensor_id: int, coordinate_id: int):
+        self.sensor_id = sensor_id
+        self.coordinate_id = coordinate_id
+
+    def put_into_dto(self) -> Dict[str, Any]:
+        return {
+            "sensor_id": self.sensor_id,
+            "coordinate_id": self.coordinate_id
+        }
 
     @staticmethod
-    def create_from_dto(dto_dict: dict) -> 'SensorCoordinates':
-        obj = SensorCoordinates(
-            sensors_coordinates_id=dto_dict.get("sensors_coordinates_id"),
+    def create_from_dto(dto_dict: dict) -> 'SensorsCoordinates':
+        return SensorsCoordinates(
             sensor_id=dto_dict.get("sensor_id"),
-            coordinates_id=dto_dict.get("coordinates_id")
-        )
-        return obj
-
-    def put_into_dto(self) -> dict:
-        return {
-            "sensors_coordinates_id": self.sensors_coordinates_id,
-            "sensor_id": self.sensor_id,
-            "coordinates_id": self.coordinates_id
-        } 
+            coordinate_id=dto_dict.get("coordinate_id")
+        ) 

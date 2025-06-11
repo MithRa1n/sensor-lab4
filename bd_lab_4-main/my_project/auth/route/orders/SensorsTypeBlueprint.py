@@ -54,3 +54,8 @@ def get_sensors_by_type(type_id: int) -> Response:
     sensors = sensors_service.get_by_type_id(type_id)
     sensors_dto = [sensor.put_into_dto() for sensor in sensors]
     return make_response(jsonify(sensors_dto), HTTPStatus.OK)
+
+@sensors_type_bp.get('/expanded')
+def get_all_sensorstypes_expanded() -> Response:
+    data = sensorstype_service.get_all_expanded()
+    return make_response(jsonify(data), HTTPStatus.OK)

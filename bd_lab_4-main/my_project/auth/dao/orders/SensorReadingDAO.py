@@ -16,4 +16,4 @@ class SensorReadingDAO(GeneralDAO):
         return self._session.query(SensorReading).filter(SensorReading.sensor_reading_id == reading_id).first()
 
     def find_by_sensor_id(self, sensor_id: int) -> List[SensorReading]:
-        return self._session.query(SensorReading).filter(SensorReading.sensors_sensor_id == sensor_id).all()
+        return self._session.query(SensorReading).filter(SensorReading.sensor_id == sensor_id).all()

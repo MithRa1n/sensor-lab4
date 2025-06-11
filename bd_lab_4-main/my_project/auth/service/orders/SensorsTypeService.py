@@ -11,7 +11,7 @@ from my_project.auth.domain.orders.Locations import Location
 from my_project.auth.domain.orders.Pumps import Pump
 from my_project.auth.domain.orders.PumpOperations import PumpOperation
 from my_project.auth.domain.orders.SensorReadings import SensorReading
-from my_project.auth.domain.orders.SensorsHasCoordinates import SensorCoordinate
+from my_project.auth.domain.orders.SensorsCoordinates import SensorsCoordinates
 from my_project.auth.domain.orders.Sensors import Sensor
 from my_project.auth.domain.orders.SensorsType import SensorType
 from my_project.auth.domain.orders.Sopla import Sopla
@@ -27,6 +27,9 @@ class SensorsTypeService(GeneralService):
 
     def get_all(self) -> List[SensorType]:
         return self._dao.find_all()
+
+    def get_all_expanded(self) -> list:
+        return self._dao.find_all_expanded()
 
     def get_by_id(self, item_id: int) -> SensorType:
         return self._dao.find_by_id(item_id)
